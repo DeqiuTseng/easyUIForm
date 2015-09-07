@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>EasyUI-AngularJS</title>
+    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui-1.4.3/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="lib/jquery-easyui-1.4.3/themes/icon.css">
+    <!--North背景渐变效果-->
+    <link rel="stylesheet" type="text/css" href="modules/publicModule/home/home.css">
+
+    <script type="text/javascript" src="lib/jquery-easyui-1.4.3/jquery.min.js"></script>
+    <script type="text/javascript" src="lib/jquery-easyui-1.4.3/jquery.easyui.min.js"></script>
+    <script src="lib/Highcharts-4.1.8/js/highcharts.js"></script>
+    <script src="lib/Highcharts-4.1.8/js/modules/exporting.js"></script>
+    <script src="lib/requirejs/require.js" data-main="modules/main"></script>
+</head>
+<body class="easyui-layout" ng-controller="mainCtrl">
+<div data-options="region:'north',border:false" style="height:60px;padding:10px" class="linear"><b>信用卡后台管理系统</b>
+</div>
+<div data-options="region:'west',split:true,title:'系统菜单'" style="width:250px;padding:10px;">
+    <conte>
+        <ul class="easyui-tree">
+            <li>
+                <span/>目录</span>
+                <ul>
+                    <li>
+                        <span/>用户管理</span>
+                        <ul>
+                            <li>
+                                <span><label ng-click="addPanel('用户查询')">用户查询</label></span>
+                            </li>
+                            <li>
+                                <span>用户注销</span>
+                            </li>
+                            <li>
+                                <span/>用户登录日志</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>设备管理</span>
+                        <ul>
+                            <li><label ng-click="addPanel('设备查询')">设备查询</label></li>
+                            <li>设备库存</li>
+                            <li>设备流水</li>
+                            <li>设备成本统计</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>系统维护</span>
+                        <ul>
+                            <li>字典表维护</li>
+                            <li>权限分配</li>
+                            <li>角色分配</li>
+                            <li>系统设置</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>机构管理</span>
+                        <ul>
+                            <li>机构拓扑图</li>
+                            <li>机构权限</li>
+                            <li>机构查询</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>信用卡</span>
+                        <ul>
+                            <li>申请流水</li>
+                            <li>团办客户</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>信用卡产品</span>
+                        <ul>
+                            <li>信用卡查询</li>
+                            <li>信用卡新增</li>
+                        </ul>
+                    </li>
+                    <li>
+                        <span/>活动促销</span>
+                        <ul>
+                            <li>活动查询</li>
+                            <li>活动新增</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </conte>
+</div>
+<div data-options="region:'east',split:true,collapsed:true,title:'任务'" style="width:222px;padding:0px;overflow:hidden ">
+    <div class="easyui-calendar" style="width:215px;height:30%;"></div>
+    <div class="easyui-accordion" style="width:215px;height:70%;">
+        <div title="About" data-options="iconCls:'icon-ok'" style="width:198px;padding:10px;">
+            <h3 style="color:#0099FF;">Accordion for jQuery</h3>
+            <p>Accordion is a part of easyui framework for jQuery. It lets you define your accordion component on web page more easily.</p>
+        </div>
+        <div title="Help" data-options="iconCls:'icon-help'" style="padding:10px;">
+            <p>The accordion allows you to provide multiple panels and display one or more at a time. Each panel has built-in support for expanding and collapsing. Clicking on a panel header to expand or collapse that panel body. The panel content can be loaded via ajax by specifying a 'href' property. Users can define a panel to be selected. If it is not specified, then the first panel is taken by default.</p>
+        </div>
+        <div title="TreeMenu" data-options="iconCls:'icon-search'" style="padding:10px;">
+            <ul class="easyui-tree">
+                <li>
+                    <span>Foods</span>
+                    <ul>
+                        <li>
+                            <span>Fruits</span>
+                            <ul>
+                                <li>apple</li>
+                                <li>orange</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <span>Vegetables</span>
+                            <ul>
+                                <li>tomato</li>
+                                <li>carrot</li>
+                                <li>cabbage</li>
+                                <li>potato</li>
+                                <li>lettuce</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div data-options="region:'south',border:false" style="height:50px;padding:10px;">@版权归移动金融研发组所有</div>
+<div data-options="region:'center',title:'工作区'">
+    <div class="easyui-tabs" data-options="fit:true,border:false,plain:true" id="tabContent">
+
+        <!--<div title="主页" data-options="href:'_content.html'" style="padding:10px"></div>-->
+        <div title="主页"  style="padding:10px">
+            <div id="container" style="height: 400px; margin: 0 auto"></div>
+        </div>
+
+        <div title="设备管理" style="padding:5px">
+            <!--<table class="easyui-datagrid"
+                   data-options="url:'datagrid_data1.json',method:'get',singleSelect:true,fit:true,fitColumns:true">
+                <thead>
+                <tr>
+                    <th data-options="field:'itemid'" width="80">Item ID</th>
+                    <th data-options="field:'productid'" width="100">Product ID</th>
+                    <th data-options="field:'listprice',align:'right'" width="80">List Price</th>
+                    <th data-options="field:'unitcost',align:'right'" width="80">Unit Cost</th>
+                    <th data-options="field:'attr1'" width="150">Attribute</th>
+                    <th data-options="field:'status',align:'center'" width="50">Status</th>
+                </tr>
+                </thead>
+            </table>-->
+
+            <!--动态加载DataGrid数据-->
+            <table id="dg" title="Client Side Pagination" data-options="
+				rownumbers:true,
+				singleSelect:true,
+				autoRowHeight:false,
+				pagination:true,
+				pageSize:10">
+                <thead>
+                <tr>
+                    <th field="inv" width="180">Inv No</th>
+                    <th field="date" width="180">Date</th>
+                    <th field="name" width="280">Name</th>
+                    <th field="amount" width="180" align="right">Amount</th>
+                    <th field="price" width="180" align="right">Price</th>
+                    <th field="cost" width="200" align="right">Cost</th>
+                    <th field="note" width="110">Note</th>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
