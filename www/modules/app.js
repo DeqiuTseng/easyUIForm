@@ -1,13 +1,13 @@
 define([
-    'angular',
-   /* 'jquery',
-    'jqueryEasyui',
-    'Highcharts',
-    'HighchartsExporting'*/
+    'angular'/*,
+     'jquery',
+     'jqueryEasyui',
+     'Highcharts',
+     'HighchartsExporting'*/
 ], function () {
     'use strict';
     //先把hxApp的部件拿到，那么启动hxApp就能发挥整体功效啦
-    var module = angular.module('hxApp',[])
+    var module = angular.module('hxApp', [])
         .config(['$sceProvider', '$compileProvider',
             function ($sceProvider, $compileProvider) {
                 $sceProvider.enabled(false);
@@ -20,13 +20,29 @@ define([
         });
     // 最外层的控制器
     module.controller('mainCtrl', ['$scope', function ($scope) {
-        //工作区tab页
+        $scope.southContentURL = "modules/publicModule/south/southIndex.html";
+        $scope.westContentURL = "modules/publicModule/west/westIndex.html";
+        $scope.eastContentURL = "modules/publicModule/east/eastIndex.html";
+        $scope.workContentURL = "modules/publicModule/center/centerIndex.html";
+
+        //--------------------------弹面消息提示框--------------------------
+        slide();
+        function slide() {
+            $.messager.show({
+                title: '系统消息',
+                msg: '登录系统时间:' + new Date() + '',
+                timeout: 5000,
+                showType: 'slide'
+            });
+        }
+
+        //--------------------------工作区tab页----------------------------
         var index = 0;
-        $scope.addPanel=function(tabName) {
+        $scope.addPanel = function (tabName) {
             index++;
             $('#tabContent').tabs('add', {
                 title: tabName,
-                href:'_tableContent.html',
+                href: '../../modules/publicModule/_tableContent.html',
                 closable: true
             });
         }
@@ -123,7 +139,7 @@ define([
             $('#dg').datagrid({data: getData()}).datagrid('clientPaging');
         });
 
-        //统计图展示
+        //--------------------------统计图展示----------------------------
         $(function () {
             $('#container').highcharts({
                 title: {
@@ -179,8 +195,6 @@ define([
                 ]
             });
         });
-
     }]);
-
     return module;
 });
