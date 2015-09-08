@@ -19,11 +19,11 @@ define([
             javaServerPort: '80'
         });
     // 最外层的控制器
-    module.controller('mainCtrl', ['$scope', function ($scope) {
-        $scope.southContentURL = "modules/publicModule/south/southIndex.html";
-        $scope.westContentURL = "modules/publicModule/west/westIndex.html";
+    module.controller('mainCtrl', ['$scope','$http', function ($scope,$http) {
+       $scope.southContentURL = "modules/publicModule/south/southIndex.html";
+        /*$scope.westContentURL = "modules/publicModule/west/westIndex.html";
         $scope.eastContentURL = "modules/publicModule/east/eastIndex.html";
-        $scope.workContentURL = "modules/publicModule/center/centerIndex.html";
+        $scope.workContentURL = "modules/publicModule/center/centerIndex.html";*/
 
         //--------------------------弹面消息提示框--------------------------
         slide();
@@ -42,7 +42,7 @@ define([
             index++;
             $('#tabContent').tabs('add', {
                 title: tabName,
-                href: '../../modules/publicModule/_tableContent.html',
+                href: 'modules/publicModule/center/_tableContent.html',
                 closable: true
             });
         }
@@ -117,27 +117,51 @@ define([
             })
         })(jQuery);
 
-        function getData() {
-            var rows = [];
-            for (var i = 1; i <= 800; i++) {
-                var amount = Math.floor(Math.random() * 1000);
-                var price = Math.floor(Math.random() * 1000);
-                rows.push({
-                    inv: 'Inv No ' + i,
-                    date: $.fn.datebox.defaults.formatter(new Date()),
-                    name: 'Name ' + i,
-                    amount: amount,
-                    price: price,
-                    cost: amount * price,
-                    note: 'Note ' + i
-                });
+        var rows=[];
+        function getData(success,fail) {
+            var optionObj={
+                "head":
+                {
+                    "RSID":"manageSystem"
+                },
+                "body":
+                {
+                    "note":
+                    {
+                        "db_tableName":"device",
+                        "pkValue":"2",
+                        "db_pageSize":"100",
+                        "db_pageNum":"1",
+                        "db_skipNum":"100",
+                        "db_topNum":"100",
+                        "db_columns":["deviceNum","deviceMac","deviceIp","deviceStatus","deviceOrgNo","deviceUser"],
+                        "values":{}
+                    }
+                }
             }
+            $http({
+                method: 'POST',
+                data: optionObj,
+                url: "http://192.168.169.217:8007/ReviveSmartRS/Revive/RS/SelectModel",
+                timeout: 25000                                //设置为25s后超时
+            }).success(function (data) {
+                rows=data.body.resultDatas;
+                console.info(rows);
+                success(data);
+            }).error(function () {
+                fail();
+            });
+            console.info(rows);
             return rows;
         }
 
-        $(function () {
-            $('#dg').datagrid({data: getData()}).datagrid('clientPaging');
-        });
+        getData(function(){
+            $(function () {
+                $('#dg').datagrid({data:rows}).datagrid('clientPaging');
+            });
+            rows=[];
+        },function(){});
+
 
         //--------------------------统计图展示----------------------------
         $(function () {

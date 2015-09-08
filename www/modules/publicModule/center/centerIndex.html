@@ -1,11 +1,12 @@
 <div class="easyui-tabs" data-options="fit:true,border:false,plain:true" id="tabContent">
+
     <div title="主页"  style="padding:10px">
         <div id="container" style="height: 400px; margin: 0 auto"></div>
     </div>
 
     <div title="设备管理" style="padding:5px">
         <!--动态加载DataGrid数据-->
-        <table id="dg" title="Client Side Pagination" data-options="
+        <table id="dg" title="test" data-options="
 				rownumbers:true,
 				singleSelect:true,
 				autoRowHeight:false,
@@ -13,13 +14,14 @@
 				pageSize:10">
             <thead>
             <tr>
-                <th field="inv" width="180">Inv No</th>
-                <th field="date" width="180">Date</th>
-                <th field="name" width="280">Name</th>
-                <th field="amount" width="180" align="right">Amount</th>
-                <th field="price" width="180" align="right">Price</th>
-                <th field="cost" width="200" align="right">Cost</th>
-                <th field="note" width="110">Note</th>
+                <th field="sybid" width="110">sybid</th>
+                <th field="deviceNum" width="180">deviceNum</th>
+                <th field="deviceMac" width="180">deviceMac</th>
+                <th field="deviceIp" width="280">deviceIp</th>
+                <th field="deviceStatus" width="120" align="right">deviceStatus</th>
+                <th field="deviceOrgNo" width="120" align="right">deviceOrgNo</th>
+                <th field="deviceUser" width="200" align="right">deviceUser</th>
+                <th field="deviceValid" width="110">deviceValid</th>
             </tr>
             </thead>
         </table>
