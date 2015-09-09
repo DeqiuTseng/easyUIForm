@@ -21,9 +21,11 @@
 <!--左边-->
 <div data-options="region:'west',split:true,title:'系统菜单'" style="width:250px;:padding10px;">
     <!--<ng-include src="westContentURL"></ng-include>-->
-    <!--<iframe src="modules/publicModule/west/westIndex.html"></iframe>-->
+
     <conte>
-        <ul class="easyui-tree">
+        <ul class="tree" id="jstree_org">
+        </ul>
+        <!--<ul class="easyui-tree">
             <li>
                 <span/>目录</span>
                 <ul>
@@ -52,7 +54,7 @@
                     </li>
                 </ul>
             </li>
-        </ul>
+        </ul>-->
     </conte>
 </div>
 
@@ -83,31 +85,45 @@
 <div data-options="region:'center',title:'工作区'">
     <!--<ng-include src="workContent"></ng-include>-->
     <div class="easyui-tabs" data-options="fit:true,border:false,plain:true" id="tabContent">
-        <div title="主页"  style="padding:10px">
+        <div title="主页" style="padding:10px">
             <div id="container" style="height: 400px; margin: 0 auto"></div>
         </div>
 
         <div title="设备管理">
-            <!--动态加载DataGrid数据-->
+            <!-- 动态加载数据 DataGrid-->
             <div style="padding:5px">
-            <table id="dg" title="数据查询" data-options="
+                <div id="p" class="easyui-panel" title="options" style="width:auto;height:auto;padding:10px;">
+                    <div style="float: left">
+                        <span><label>设备编号:</label><input class="easyui-textbox" type="text" name="name"></span>
+                        <span><label>入库时间:</label><input class="easyui-datetimebox" required style="width:200px"></span>
+                    </div>
+                    <div style="float: right">
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'">增加</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">删除</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" style="width:80px">查询</a>
+                        <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" style="width:80px">打印</a>
+                    </div>
+                </div>
+
+                <table id="dg"  data-options="
 				rownumbers:true,
-				singleSelect:true,
+				singleSelect:false,
 				autoRowHeight:false,
 				pagination:true,
 				pageSize:10">
-                <thead>
-                <tr>
-                    <th field="sybid" width="110">ID</th>
-                    <th field="deviceNum" width="180">设备编号</th>
-                    <th field="deviceMac" width="180">设备Mac地址</th>
-                    <th field="deviceIp" width="280">设备IP地址</th>
-                    <th field="deviceStatus" width="180" align="right">设备状态</th>
-                    <th field="deviceOrgNo" width="160" align="right">设备编号</th>
-                    <th field="deviceUser" width="180" align="right">设备用户ID</th>
-                </tr>
-                </thead>
-            </table>
+                    <thead>
+                    <tr>
+                        <th data-options="field:'ck',checkbox:true"></th>
+                        <th field="deviceNum" width="180">设备编号</th>
+                        <th field="deviceMac" width="180">设备Mac地址</th>
+                        <th field="deviceIp" width="280">设备IP地址</th>
+                        <th field="deviceStatus" width="180" align="right">设备状态</th>
+                        <th field="deviceOrgNo" width="160" align="right">设备编号</th>
+                        <th field="deviceUser" width="180" align="right">设备用户ID</th>
+                    </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>

@@ -19,11 +19,49 @@ define([
             javaServerPort: '80'
         });
     // 最外层的控制器
-    module.controller('mainCtrl', ['$scope','$http', function ($scope,$http) {
-       $scope.southContentURL = "modules/publicModule/south/southIndex.html";
-        /*$scope.westContentURL = "modules/publicModule/west/westIndex.html";
-        $scope.eastContentURL = "modules/publicModule/east/eastIndex.html";
-        $scope.workContentURL = "modules/publicModule/center/centerIndex.html";*/
+    module.controller('mainCtrl', ['$scope', '$http', function ($scope, $http) {
+        $scope.southContentURL = "modules/publicModule/south/southIndex.html";
+        $scope.westContentURL = "modules/publicModule/west/westIndex.html";
+        /*$scope.eastContentURL = "modules/publicModule/east/eastIndex.html";
+         $scope.workContentURL = "modules/publicModule/center/centerIndex.html";*/
+
+        selectOrgData();
+
+        /*
+         * 查询数据
+         * */
+        function selectOrgData() {
+            var option = {
+                "head": {
+                    "RSID": "manageSystem", token: ""
+                },
+                "body": {
+                }
+            };
+
+            $http({
+                method: 'POST',
+                data: option,
+                url: "http://192.168.169.217:8007/ReviveSmartRS/Revive/mamageSystem/SelectAllOrg",
+                timeout: 25000                                //设置为25s后超时
+            }).success(function (result) {
+                if (result.head.resultCode == 'Error') {
+                    $scope.errorInfo("danger", result.head.errMsg);
+                } else {
+                    $scope.orgDatas = angular.copy(result.body.resultDatas);
+                    var treeData = angular.copy($scope.orgDatas);
+                    $('#jstree_org').tree({
+                        'lines': true,
+                        'animate': true,
+                        'data': treeData
+                    });
+                }
+            }).error(function () {
+            });
+        }
+
+
+        $scope.test = "TEST";
 
         //--------------------------弹面消息提示框--------------------------
         slide();
@@ -117,25 +155,23 @@ define([
             })
         })(jQuery);
 
-        var rows=[];
-        function getData(success,fail) {
-            var optionObj={
-                "head":
-                {
-                    "RSID":"manageSystem"
+        var rows = [];
+
+        function getData(success, fail) {
+            var optionObj = {
+                "head": {
+                    "RSID": "manageSystem"
                 },
-                "body":
-                {
-                    "note":
-                    {
-                        "db_tableName":"device",
-                        "pkValue":"2",
-                        "db_pageSize":"100",
-                        "db_pageNum":"1",
-                        "db_skipNum":"100",
-                        "db_topNum":"100",
-                        "db_columns":["deviceNum","deviceMac","deviceIp","deviceStatus","deviceOrgNo","deviceUser"],
-                        "values":{}
+                "body": {
+                    "note": {
+                        "db_tableName": "device",
+                        "pkValue": "2",
+                        "db_pageSize": "100",
+                        "db_pageNum": "1",
+                        "db_skipNum": "100",
+                        "db_topNum": "100",
+                        "db_columns": ["deviceNum", "deviceMac", "deviceIp", "deviceStatus", "deviceOrgNo", "deviceUser"],
+                        "values": {}
                     }
                 }
             }
@@ -145,7 +181,7 @@ define([
                 url: "http://192.168.169.217:8007/ReviveSmartRS/Revive/RS/SelectModel",
                 timeout: 25000                                //设置为25s后超时
             }).success(function (data) {
-                rows=data.body.resultDatas;
+                rows = data.body.resultDatas;
                 console.info(rows);
                 success(data);
             }).error(function () {
@@ -155,12 +191,13 @@ define([
             return rows;
         }
 
-        getData(function(){
+        getData(function () {
             $(function () {
-                $('#dg').datagrid({data:rows}).datagrid('clientPaging');
+                $('#dg').datagrid({data: rows}).datagrid('clientPaging');
             });
-            rows=[];
-        },function(){});
+            rows = [];
+        }, function () {
+        });
 
 
         //--------------------------统计图展示----------------------------
